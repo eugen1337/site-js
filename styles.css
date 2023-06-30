@@ -1,39 +1,77 @@
 html {
     height: 100%;
-  }
-  
-  body {
-    margin:0;
-    padding:0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
     font-family: sans-serif;
-    background: linear-gradient(0deg, #6d0202, #141e30 80%, #c4c3c3);
-  }
-  
-  .login-box {
+    background: linear-gradient(#3f3f3f,#c4c3c3, #3f3f3f);
+    /*background: linear-gradient(0deg, #6d0202, #141e30 80%, #c4c3c3);*/
+}
+
+header {
+     background-color: #727272fa; 
+    display: flex;
+    text-align: center;
+}
+
+.main-header img {
+    /* margin-left: 20px; */
+    display: flex;
+    width: 120px;
+    height: auto;
+}
+
+.main-header input {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #020202;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background-color: #fff;
+}
+
+.main-header p {
+    color: #424443;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    font-size: 30px;
+    font-family: cursive;
+    vertical-align: middle;
+    padding-top: 15px;
+}
+
+.login-box {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 400px;
     padding: 40px;
     transform: translate(-50%, -50%);
-    background: rgba(0,0,0,.5);
+    background: rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
     border-radius: 10px;
-  }
-  
-  .login-box h2 {
+}
+
+.login-box h2 {
     margin: 0 0 30px;
     padding: 0;
     color: #fff;
     text-align: center;
-  }
-  
-  .login-box .user-box {
+}
+
+.login-box .user-box {
     position: relative;
-  }
-  
-  .login-box .user-box input {
+}
+
+.login-box .user-box input {
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
@@ -43,22 +81,22 @@ html {
     border-bottom: 1px solid #fff;
     outline: none;
     background: transparent;
-  }
-  .login-box .user-box label {
+}
+.login-box .user-box label {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     padding: 10px 0;
     font-size: 16px;
     color: #fff;
     pointer-events: none;
-    transition: .5s;
-  }
-  
-  .login-box .user-box input:focus ~ label,
-  .login-box .user-box input:valid ~ label {
+    transition: 0.5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
     top: -20px;
     left: 0;
-    color: #03e9f4;
+    color: #0357f4;
     font-size: 12px;
-  }
+}
