@@ -20,7 +20,7 @@ header {
     /* margin-left: 20px; */
     display: flex;
     width: 120px;
-    height: auto;
+    height: 120px;
 }
 
 .main-header_input {
@@ -29,7 +29,7 @@ header {
     padding: 10px 0;
     font-size: 16px;
     color: #020202;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
@@ -135,6 +135,7 @@ header {
     margin-bottom: 10px;
 }
 .container__img {
+    font-family: cursive;
     display: flex;
     justify-content: center;
     padding: 20px;
@@ -145,14 +146,13 @@ header {
     flex-direction: column;
 }
 .container__imgs {
+    justify-content: center;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
-.card_name {
-
-}
 .container_chbox {
+    font-family: cursive;
     display: flex;
     margin-bottom: 10px;
 }

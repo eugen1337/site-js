@@ -34,6 +34,7 @@ async function showCharacter(result, name, alive) {
   ).getCharacter(name, alive ? "alive" : undefined);
   renderCharacters(result, res);
 }
+
 /**
  *
  * @param {*} result
@@ -47,10 +48,22 @@ function renderCharacters(result, res) {
   next = res.info.next;
   res.results.map((item) => {
     const container = createElement("div", result, { class: "container__img" });
+
     const name = createElement("span", container, {
       class: "card_name",
     });
     name.innerHTML = "Name: " + item.name;
+
+    const species = createElement("span", container, {
+      class: "card_name",
+    });
+    species.innerHTML = "Species: " + item.species;
+
+    const location = createElement("span", container, {
+      class: "card_name",
+    });
+    location.innerHTML = "Location: " + item.location.name;
+
     const logo = createElement("img", container, {
       src: item.image,
       alt: name,
@@ -69,7 +82,7 @@ function checkInput() {
 function changePage() {
   const name = document.getElementById("login").value;
   document.body.innerHTML = "";
-  document.body.setAttribute("background", "000");
+
   const header = createElement("header", document.body, {
     class: "main-header",
   });
@@ -98,6 +111,7 @@ function changePage() {
     class: "main-header_input",
     placeholder: "Search by name...",
   });
+
   const dCheck = createElement("div", containerSearch, {
     class: "container_chbox",
   });
