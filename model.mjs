@@ -1,8 +1,8 @@
-export async function getCharacter(name, status) {
-    let res = await (
-        await import("./fetches.mjs")
-    ).fetchCharacter(name, status);
-    console.log(res);
+import { fetchCharacter, fecthPaginationCharacter } from "./api.mjs";
 
-    return res;
+export async function getCharacter(name, status) {
+  return fetchCharacter(name, status);
 }
+
+export const loadCharactersPagination = async (link) =>
+  fecthPaginationCharacter(link);

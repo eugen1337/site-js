@@ -4,108 +4,166 @@
 //     "episodes": "https://rickandmortyapi.com/api/episode"
 // }
 
+let next = "";
 window.onload = () => {
-    loadStartForm();
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" && checkInput()) {
-            console.log(event.key);
-
-            changePage();
-        }
-    });
+  loadStartForm();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && checkInput()) {
+      changePage();
+    }
+  });
 };
 
 function createElement(elem, parent, params) {
-    node = document.createElement(elem);
+  node = document.createElement(elem);
 
-    if (params) {
-        for (let key in params) {
-            node.setAttribute(key, params[key]);
-        }
+  if (params) {
+    for (const key in params) {
+      node.setAttribute(key, params[key]);
     }
+  }
 
-    parent.appendChild(node);
-    return node;
+  parent.appendChild(node);
+  return node;
 }
 
-async function showCharacter(result, name) {
-    result.innerHTML = '';
-    let res = await (await import("./model.mjs")).getCharacter(name);
-    console.log(res);
-    for (i = 0; i < 20; i++) {
-        imgSource = res.results[i].image;
-        console.log(imgSource);
-        let logo = createElement("img", result, {
-            src: imgSource,
-            alt: name,
-            class: "result",
-        });
-    }
+async function showCharacter(result, name, alive) {
+  result.innerHTML = "";
+  const res = await (
+    await import("./model.mjs")
+  ).getCharacter(name, alive ? "alive" : undefined);
+  renderCharacters(result, res);
+}
+/**
+ *
+ * @param {*} result
+ * @param {{
+ * info : {
+ * next: String}, results: [{
+ * name: String, image: String}]
+ * }} res
+ */
+function renderCharacters(result, res) {
+  next = res.info.next;
+  res.results.map((item) => {
+    const container = createElement("div", result, { class: "container__img" });
+    const name = createElement("span", container, {
+      class: "card_name",
+    });
+    name.innerHTML = "Name: " + item.name;
+    const logo = createElement("img", container, {
+      src: item.image,
+      alt: name,
+      class: "result",
+    });
+  });
 }
 
 function checkInput() {
-    let input = document.getElementById("login").value;
-    if (!input) return false;
+  const input = document.getElementById("login").value;
+  if (!input) return false;
 
-    return input != "";
+  return input ? input !== "" : false;
 }
 
 function changePage() {
-    let name = document.getElementById("login").value;
-    document.body.innerHTML = "";
-    document.body.setAttribute("background", "000");
+  const name = document.getElementById("login").value;
+  document.body.innerHTML = "";
+  document.body.setAttribute("background", "000");
+  const header = createElement("header", document.body, {
+    class: "main-header",
+  });
 
-    let header = createElement("header", document.body, {
-        class: "main-header",
-    });
+  const logo = createElement("img", header, {
+    src: "./resources/logo.png",
+    alt: "logo",
+    class: "main-header",
+  });
 
-    let logo = createElement("img", header, {
-        src: "./resources/logo.png",
-        alt: "logo",
-        class: "main-header",
-    });
+  const greet = createElement("p", header);
+  greet.innerHTML = `Welcome, ${name}!`;
 
-    let greet = createElement("p", header);
-    greet.innerHTML = `Welcome, ${name}!`;
+  const result = createElement("div", document.body, {
+    class: "container__imgs",
+  });
+  const containerSearch = createElement("div", header, {
+    class: "container__header",
+  });
 
-    let result = createElement("section", document.body, { class: "result" });
+  const search = createElement("input", containerSearch, {
+    type: "text",
+    name: "",
+    required: "",
+    id: "characterName",
+    class: "main-header_input",
+    placeholder: "Search by name...",
+  });
+  const dCheck = createElement("div", containerSearch, {
+    class: "container_chbox",
+  });
 
-    let search = createElement("input", header, {
-        type: "text",
-        name: "",
-        required: "",
-        id: "characterName",
-        class: "main-header",
-    });
+  const checkBox = createElement("input", dCheck, {
+    type: "checkbox",
+    class: "alive_check",
+    name: "Alive",
+    id: "alive",
+  });
 
-    let searchBut = createElement("button", header);
+  const label = createElement("label", dCheck, {
+    for: "alive",
+  });
+  label.innerHTML = "Alive";
 
-    searchBut.onclick = () => {
-        characterName = document.getElementById("characterName").value;
-        console.log(characterName);
-        showCharacter(result, characterName);
-    };
+  const searchBtn = createElement("div", containerSearch, {
+    class: "search_btn",
+  });
 
-    
+  const sp = createElement("span", searchBtn);
+  sp.innerHTML = "Search";
+  showCharacter(result);
+  searchBtn.onclick = () => {
+    characterName = document.getElementById("characterName").value;
+    showCharacter(result, characterName, checkBox.checked);
+  };
+  
+  //Pagination
+  document.onscroll = async function () {
+    if (
+      document.documentElement.scrollTop + window.innerHeight ==
+      document.documentElement.scrollHeight
+    ) {
+      const res = await (
+        await import("./model.mjs")
+      ).loadCharactersPagination(next);
+      renderCharacters(result, res);
+    }
+  };
 }
 
 async function loadStartForm() {
-    let mainDiv = createElement("div", document.body, { class: "login-box" });
+  const mainDiv = createElement("div", document.body, { class: "login-box" });
 
-    let h2 = createElement("h2", mainDiv);
-    h2.innerHTML = "Enter your name";
+  const h2 = createElement("h2", mainDiv);
+  h2.innerHTML = "Enter your name";
 
-    let form = createElement("form", mainDiv);
+  const form = createElement("form", mainDiv);
 
-    let userBox = createElement("div", form, { class: "user-box" });
+  const userBox = createElement("div", form, { class: "user-box" });
 
-    createElement("input", userBox, {
-        type: "text",
-        name: "",
-        required: "",
-        id: "login",
-    });
+  const submit = createElement("button", form, { class: "submit__form" });
+  submit.innerHTML = "Submit";
 
-    let label = createElement("label", userBox);
-    label.innerHTML = "Name";
+  submit.onclick = () => {
+    checkInput() ? changePage() : {};
+  };
+
+  createElement("input", userBox, {
+    type: "text",
+    name: "",
+    required: "",
+    id: "login",
+  });
+
+  const label = createElement("label", userBox);
+  label.innerHTML = "Name";
 }
